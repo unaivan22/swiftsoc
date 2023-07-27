@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3A5D17F2A72A84A00A8957A /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A5D17E2A72A84A00A8957A /* Image.swift */; };
 		A3E88EF22A71FE3A002FAAEB /* swiftsocApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E88EF12A71FE3A002FAAEB /* swiftsocApp.swift */; };
 		A3E88EF42A71FE3A002FAAEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E88EF32A71FE3A002FAAEB /* ContentView.swift */; };
 		A3E88EF62A71FE40002FAAEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3E88EF52A71FE40002FAAEB /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A3A5D17E2A72A84A00A8957A /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		A3E88EEE2A71FE3A002FAAEB /* swiftsoc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swiftsoc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3E88EF12A71FE3A002FAAEB /* swiftsocApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftsocApp.swift; sourceTree = "<group>"; };
 		A3E88EF32A71FE3A002FAAEB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -46,6 +48,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A3A5D17D2A72A83C00A8957A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A3A5D17E2A72A84A00A8957A /* Image.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		A3E88EE52A71FE3A002FAAEB = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +75,7 @@
 		A3E88EF02A71FE3A002FAAEB /* swiftsoc */ = {
 			isa = PBXGroup;
 			children = (
+				A3A5D17D2A72A83C00A8957A /* Utils */,
 				A3E88F0D2A720E23002FAAEB /* Web Service */,
 				A3E88F0A2A720E0F002FAAEB /* Model */,
 				A3E88EFF2A71FFBF002FAAEB /* View */,
@@ -191,6 +202,7 @@
 				A3E88F092A720013002FAAEB /* Likes.swift in Sources */,
 				A3E88F0F2A720E3F002FAAEB /* Services.swift in Sources */,
 				A3E88F0C2A720E1D002FAAEB /* Model.swift in Sources */,
+				A3A5D17F2A72A84A00A8957A /* Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

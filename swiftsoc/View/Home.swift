@@ -14,15 +14,10 @@ struct Home: View {
     @State private var selectedTab = 0
     var body: some View {
         ScrollView(.vertical){
-            HorizontalStory()
-            
             VerticalFeed()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.white)
     }
 }
-
 
 
 struct HorizontalStory: View {
@@ -36,9 +31,14 @@ struct HorizontalStory: View {
                     Image("meHD")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 60, height: 60)
+                        .frame(width: 80, height: 80)
                         .padding(.top, 10)
                         .padding(.leading, 5)
+                    
+                    Image(systemName: "plus.circle.fill")
+                        .foregroundColor(Color.blue)
+                        .padding(.top, -25)
+                        .font(.system(size: 28))
                     
                     Text("Start a story")
                         .font(.system(size: 12))
@@ -153,7 +153,7 @@ struct HorizontalStory: View {
                         .padding(.leading, 5)
                 }
                 
-            }
+            }.padding(.leading, 15)
         }
     }
 }
@@ -161,286 +161,167 @@ struct HorizontalStory: View {
 
 struct VerticalFeed: View {
     
-    @StateObject private var viewModel = PostsViewModel()
-
+    @StateObject private var viewModel = PostViewModel()
+    
     var body: some View {
-        NavigationView {
-            List(viewModel.posts, id: \.id) { post in
-                VStack(alignment: .leading) {
-                    Text(post.peopleName)
-                        .font(.headline)
-                        .foregroundColor(.black)
-                    Text("Avatar likes: \(post.avatarLikes.joined(separator: ", "))")
-                    Text("Other likes: \(post.otherLikes)")
-
-                    ForEach(post.postImage, id: \.id) { image in
-                        RemoteImage(url: URL(string: image.image))
-                            .frame(width: 100, height: 100)
-                            .cornerRadius(8)
-                    }
-                }
-            }
-//            .navigationBarTitle("Posts")
-        }
-        .onAppear {
-            viewModel.fetchPosts()
-        }
-    }
-}
-
-
-struct RemoteImage: View {
-    @StateObject private var imageLoader = ImageLoader()
-    private let url: URL?
-
-    init(url: URL?) {
-        self.url = url
-    }
-
-    var body: some View {
-        if let image = imageLoader.image {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFit()
-        } else {
-            ProgressView()
-                .onAppear {
-                    imageLoader.loadImage(from: url)
-                }
-        }
-    }
-}
-
-class ImageLoader: ObservableObject {
-    @Published var image: UIImage?
-
-    private var cancellable: AnyCancellable?
-
-    func loadImage(from url: URL?) {
-        guard let url = url else {
-            return
-        }
-
-        cancellable = URLSession.shared.dataTaskPublisher(for: url)
-            .map { UIImage(data: $0.data) }
-            .replaceError(with: nil)
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.image, on: self)
-    }
-}
-
-
-
-struct VerticalFeed_: View {
-
-    @State private var region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 37.3361, longitude: -121.8907), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        )
-
-    var body: some View {
-        VStack(spacing: 16){
-            VStack(alignment: .leading){
-                HStack(alignment: .center){
-                    Image("user1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 60, height: 60)
-                    
+        VStack{
+            HorizontalStory()
+            NavigationView {
+                List(viewModel.posts, id: \.id) { post in
                     VStack(alignment: .leading){
-                        Text("Lia Marie")
-                            .font(.system(size: 18))
-                        
-                        Text("Added 5 photos")
-                            .font(.system(size: 14))
-                            .foregroundColor(.gray)
-                    }
-                }
-                .padding(.top, 12)
-                .padding(.leading, 12)
-                .padding(.trailing, 12)
-                
-                Grid() {
-                    GridRow {
-                        VStack{
-                            AsyncImage(url: URL(string: "https://images.unsplash.com/photo-1571385778997-1ae4643264e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=686&q=80"))
-                            { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 300, height: 230)
-                            } placeholder: {
-                                Color.gray.opacity(0.1)
+                        HStack(alignment: .center){
+                            Image(post.avatar)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+
+                            VStack(alignment: .leading){
+                                Text(post.peoplename)
+                                    .font(.system(size: 18))
+
+                                Text("Added 3 photos")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.gray)
                             }
-                            .frame(maxWidth: 150, maxHeight: 200)
-                            .cornerRadius(16)
-                            
-                        }.rotationEffect(Angle(degrees: -8))
-                            .padding(.leading, -12)
-                            .padding(.trailing, 12)
+                        }
+                        .padding(.top, 12)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 12)
+
+                        HStack(alignment: .center){
+                            Text(post.postcaption)
+                                .font(.system(size: 16))
+                        }
+                        .padding(.top, 12)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 12)
                         
-                        VStack{
-                            AsyncImage(url: URL(string: "https://images.unsplash.com/photo-1609220136736-443140cffec6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"))
-                            { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 200, height: 250)
-                            } placeholder: {
-                                Color.gray.opacity(0.1)
+                        Grid() {
+                            GridRow {
+                                VStack{
+                                    if let imageUrl = post.postimageUrls[safe: 0] {
+                                        AsyncImage(url: imageUrl) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 300, height: 230)
+                                        } placeholder: {
+                                            Color.gray.opacity(0.1)
+                                        }
+                                        .frame(maxWidth: 150, maxHeight: 200)
+                                        .cornerRadius(16)
+                                    }
+                                }.rotationEffect(Angle(degrees: -8))
+                                    .padding(.leading, -12)
+                                    .padding(.trailing, 12)
+
+                                VStack{
+                                    if let imageUrl = post.postimageUrls[safe: 1] {
+                                        AsyncImage(url: imageUrl) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 200, height: 250)
+                                        } placeholder: {
+                                            Color.gray.opacity(0.1)
+                                        }
+                                        .frame(maxWidth: 130, maxHeight: 140)
+                                        .cornerRadius(16)
+                                    }
+                                }.rotationEffect(Angle(degrees: 10))
+                                    .padding(.leading, 24)
+                                    .padding(.trailing, -12)
+                                    .padding(.top, -24)
                             }
-                            .frame(maxWidth: 130, maxHeight: 140)
-                            .cornerRadius(16)
-                            
-                        }.rotationEffect(Angle(degrees: 10))
-                            .padding(.leading, 24)
-                            .padding(.trailing, -12)
-                            .padding(.top, -24)
-                    }
-                    
-                    HStack(alignment: .center){
-                        AsyncImage(url: URL(string: "https://plus.unsplash.com/premium_photo-1661281363854-a9599b110b86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=800"))
-                        { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 120, height: 200)
-                        } placeholder: {
-                            Color.gray.opacity(0.1)
+
+                            HStack(alignment: .center){
+                                if let imageUrl = post.postimageUrls[safe: 2] {
+                                    AsyncImage(url: imageUrl) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 150, height: 200)
+                                    } placeholder: {
+                                        Color.gray.opacity(0.1)
+                                    }
+                                    .frame(maxWidth: 100, maxHeight: 100)
+                                    .cornerRadius(16)
+                                }
+                            }
+                            .rotationEffect(Angle(degrees: 2))
+                            .padding(.top, -74)
+
                         }
-                        .frame(maxWidth: 100, maxHeight: 100)
-                        .cornerRadius(16)
-                        
-                    }
-                    .rotationEffect(Angle(degrees: 2))
-                    .padding(.top, -74)
-                    
-                }
-                .padding(.leading, 32)
-                .padding(.trailing, 32)
-                .padding(.bottom, 24)
-                .padding(.top, 12)
-                
-                HStack{
-                    HStack{
-                        Image(systemName: "heart.fill")
-                            .font(.system(size: 26))
-                            .foregroundColor(.red)
-                        Image(systemName: "bubble.left.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.gray)
-                        Image(systemName: "arrowshape.turn.up.forward.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.gray)
-                    }
-                    
-                    Spacer()
-                    HStack{
-                        HStack(spacing: -16){
-                            Image("user2")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            Image("user5")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            Image("user4")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
+                        .padding(.leading, 32)
+                        .padding(.trailing, 32)
+                        .padding(.bottom, 24)
+                        .padding(.top, 12)
+
+                        HStack{
+                            HStack{
+                                Image(systemName: "heart.fill")
+                                    .font(.system(size: 26))
+                                    .foregroundColor(.red)
+                                Image(systemName: "bubble.left.fill")
+                                    .font(.system(size: 24))
+                                    .foregroundColor(.gray)
+                                Image(systemName: "arrowshape.turn.up.forward.fill")
+                                    .font(.system(size: 24))
+                                    .foregroundColor(.gray)
+                            }
+
+                            Spacer()
+                            HStack{
+                                HStack(spacing: -16){
+                                    if let firstAvatarLike = viewModel.posts.first?.avatarlikes[0] {
+                                        Image("\(firstAvatarLike)")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    }
+
+                                    if let secondAvatarLike = viewModel.posts.first?.avatarlikes[1] {
+                                        Image("\(secondAvatarLike)")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    }
+
+                                    if let thirdAvatarLike = viewModel.posts.first?.avatarlikes[2] {
+                                        Image("\(thirdAvatarLike)")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    }
+                                }
+                                Text("and \(post.otherlikes) others")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.gray)
+                            }
                         }
-                        Text("And 372 others")
-                            .font(.system(size: 14))
-                            .foregroundColor(.gray)
-                    }
+                        .padding(.bottom, 12)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 12)
+                    }.listRowSeparator(.hidden)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(32)
                 }
-                .padding(.bottom, 12)
-                .padding(.leading, 12)
-                .padding(.trailing, 12)
             }
-            .frame(maxWidth: .infinity)
-            .background(Color.yellow)
-            .cornerRadius(32)
-            
-            
-            
-            VStack(alignment: .leading){
-                HStack(alignment: .center){
-                    Image("user5")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 60, height: 60)
-                    
-                    VStack(alignment: .leading){
-                        Text("Lia Marie")
-                            .font(.system(size: 18))
-                        
-                        Text("Added 5 photos")
-                            .font(.system(size: 14))
-                            .foregroundColor(.gray)
-                    }
-               }.frame(maxWidth: .infinity)
-                .padding(.top, 12)
-                .padding(.leading, 12)
-                .padding(.trailing, 12)
-                
-                HStack{
-//                        Map(coordinateRegion: $region)
-//                                            .edgesIgnoringSafeArea(.all)
-                }
-                .frame(height: 150)
-                .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-                .cornerRadius(12)
-                
-                HStack{
-                    HStack{
-                        Image(systemName: "heart.fill")
-                            .font(.system(size: 26))
-                            .foregroundColor(.red)
-                        Image(systemName: "bubble.left.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.gray)
-                        Image(systemName: "arrowshape.turn.up.forward.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.gray)
-                    }
-                    
-                    Spacer()
-                    HStack{
-                        HStack(spacing: -16){
-                            Image("user2")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            Image("user5")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            Image("user4")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                        }
-                        Text("And 372 others")
-                            .font(.system(size: 14))
-                            .foregroundColor(.gray)
-                    }
-                }
-                .padding(.bottom, 12)
-                .padding(.leading, 12)
-                .padding(.trailing, 12)
-                
+            .listStyle(.plain)
+            .frame(height: UIScreen.main.bounds.height)
+            .onAppear {
+                viewModel.fetchData()
             }
-            .frame(maxWidth: .infinity)
-            .background(Color.yellow)
-            .cornerRadius(32)
-      
+        }
+        
+        
             
         }
-        .padding(.leading, 20)
-        .padding(.trailing, 20)
-        .padding(.top, 12)
-        .padding(.bottom, 12)
+    }
+
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
     }
 }
-

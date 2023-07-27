@@ -7,37 +7,37 @@
 
 import Foundation
 
-class PostsViewModel: ObservableObject {
+class PostViewModel: ObservableObject {
     @Published var posts: [Post] = []
 
-    func fetchPosts() {
+    init() {
+        fetchData()
+    }
+
+    func fetchData() {
         guard let url = URL(string: "https://raw.githubusercontent.com/unaivan22/openJson/main/swiftsoc.json") else {
             print("Invalid URL")
             return
         }
 
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error = error {
-                print("Error fetching data: \(error)")
-                return
-            }
-
+        URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
-                print("No data received")
+                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
 
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let postsData = try decoder.decode([Post].self, from: data)
-                DispatchQueue.main.async {
-                    self.posts = postsData
+                let decodedData = try decoder.decode([String: [Post]].self, from: data)
+                if let posts = decodedData["post"] {
+                    DispatchQueue.main.async {
+                        self.posts = posts
+                    }
                 }
             } catch {
-                print("Error decoding data: \(error)")
+                print("Error decoding data: \(error.localizedDescription)")
             }
         }.resume()
     }
 }
-

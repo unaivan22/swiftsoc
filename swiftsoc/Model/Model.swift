@@ -9,15 +9,14 @@ import Foundation
 
 struct Post: Codable, Identifiable {
     let id: Int
-    let peopleName: String
+    let peoplename: String
     let avatar: String
-    let avatarLikes: [String]
-    let otherLikes: Int
-    let postImage: [PostImage]
-}
+    let avatarlikes: [String]
+    let otherlikes: Int
+    let postcaption: String
+    let postimage: [String]
 
-struct PostImage: Codable, Identifiable {
-    let id: Int
-    let image: String
-    let caption: String
+    var postimageUrls: [URL] {
+        postimage.compactMap { URL(string: $0) }
+    }
 }
