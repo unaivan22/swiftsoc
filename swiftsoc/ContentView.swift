@@ -8,14 +8,42 @@
 import SwiftUI
 
 struct ContentView: View {
+       
+    @State private var selectedTab = 0
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        NavigationView{
+            TabView(selection: $selectedTab) {
+                Home()
+                    .tabItem {
+                        Image(systemName: "rectangle.split.1x2.fill" )
+                    }.tag(0)
+                
+                Home()
+                    .tabItem {
+                        Image(systemName: "map.fill")
+                    }.tag(1)
+                
+                Create()
+                    .tabItem {
+                        Image(systemName: "plus")
+                    }.tag(2)
+                
+                Likes()
+                    .tabItem {
+                        Image(systemName: "heart.fill")
+                    }.tag(3)
+                
+                Profile()
+                    .tabItem {
+                        Image("me")
+                            .resizable()
+                            .frame(width: 30.0, height: 30.0)
+                            .clipShape(Circle())
+                    }.tag(4)
+            }
+            .accentColor(.black)
+            .background(Color.white)
+        }.background(Color.white)
     }
 }
 
@@ -24,3 +52,16 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
+
+struct CustomTabItem: View {
+    let systemName: String
+    let width: CGFloat
+    
+    var body: some View {
+        Image(systemName: systemName)
+            .font(.system(size: width))
+    }
+}
+
