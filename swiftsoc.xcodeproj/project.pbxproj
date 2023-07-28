@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A392CBB62A73A6970052D768 /* Bottomsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392CBB52A73A6970052D768 /* Bottomsheet.swift */; };
 		A3A5D17F2A72A84A00A8957A /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A5D17E2A72A84A00A8957A /* Image.swift */; };
 		A3E88EF22A71FE3A002FAAEB /* swiftsocApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E88EF12A71FE3A002FAAEB /* swiftsocApp.swift */; };
 		A3E88EF42A71FE3A002FAAEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E88EF32A71FE3A002FAAEB /* ContentView.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A392CBB52A73A6970052D768 /* Bottomsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bottomsheet.swift; sourceTree = "<group>"; };
 		A3A5D17E2A72A84A00A8957A /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		A3E88EEE2A71FE3A002FAAEB /* swiftsoc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swiftsoc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3E88EF12A71FE3A002FAAEB /* swiftsocApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftsocApp.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				A3A5D17E2A72A84A00A8957A /* Image.swift */,
+				A392CBB52A73A6970052D768 /* Bottomsheet.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				A3E88EF42A71FE3A002FAAEB /* ContentView.swift in Sources */,
 				A3E88F072A720008002FAAEB /* Profile.swift in Sources */,
 				A3E88F012A71FFE1002FAAEB /* Home.swift in Sources */,
+				A392CBB62A73A6970052D768 /* Bottomsheet.swift in Sources */,
 				A3E88F032A71FFEC002FAAEB /* Map.swift in Sources */,
 				A3E88EF22A71FE3A002FAAEB /* swiftsocApp.swift in Sources */,
 				A3E88F052A71FFF7002FAAEB /* Create.swift in Sources */,

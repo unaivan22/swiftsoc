@@ -160,7 +160,7 @@ struct HorizontalStory: View {
 
 
 struct VerticalFeed: View {
-    
+    @State private var isShowingBottomSheet = false
     @StateObject private var viewModel = PostViewModel()
     
     var body: some View {
@@ -250,6 +250,22 @@ struct VerticalFeed: View {
                             }
                             .rotationEffect(Angle(degrees: 2))
                             .padding(.top, -74)
+                            
+                            HStack(alignment: .lastTextBaseline){
+                                Text("+12")
+                                    .padding(.top, 10)
+                                    .padding(.bottom, 10)
+                                    .padding(.leading, 16)
+                                    .padding(.trailing, 16)
+                                    .background(Color.white)
+                                    .foregroundColor(Color.gray)
+                                    .cornerRadius(18.0)
+                                    .font(.system(size: 18))
+                            }
+                            .padding(.top, -52)
+                            .padding(.trailing, -2)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+
 
                         }
                         .padding(.leading, 32)
@@ -258,13 +274,56 @@ struct VerticalFeed: View {
                         .padding(.top, 12)
 
                         HStack{
-                            HStack{
-                                Image(systemName: "heart.fill")
-                                    .font(.system(size: 26))
-                                    .foregroundColor(.red)
-                                Image(systemName: "bubble.left.fill")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.gray)
+                            HStack(alignment: .top, spacing: 12){
+                                VStack{
+                                    Image(systemName: "heart.fill")
+                                        .font(.system(size: 26))
+                                        .foregroundColor(.pink)
+                                    
+                                    HStack(alignment: .lastTextBaseline){
+                                        Text("2K")
+                                            .padding(.top, 4)
+                                            .padding(.bottom, 4)
+                                            .padding(.leading, 8)
+                                            .padding(.trailing, 8)
+                                            .background(Color.red)
+                                            .foregroundColor(Color.white)
+                                            .cornerRadius(18.0)
+                                            .font(.system(size: 14))
+                                    }
+                                    .padding(.top, -52)
+                                    .padding(.trailing, -34)
+//                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                }
+                                
+                                Button(action: {
+                                    isShowingBottomSheet = true
+                                }) {
+                                    VStack{
+                                        Image(systemName: "bubble.left.fill")
+                                            .font(.system(size: 24))
+                                            .foregroundColor(.gray)
+                                        
+                                        HStack(alignment: .lastTextBaseline){
+                                            Text("64")
+                                                .padding(.top, 4)
+                                                .padding(.bottom, 4)
+                                                .padding(.leading, 8)
+                                                .padding(.trailing, 8)
+                                                .background(Color.red)
+                                                .foregroundColor(Color.white)
+                                                .cornerRadius(18.0)
+                                                .font(.system(size: 14))
+                                        }
+                                        .padding(.top, -52)
+                                        .padding(.trailing, -34)
+//                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                    }
+                                }
+                                .sheet(isPresented: $isShowingBottomSheet, content: {
+                                    BottomSheetComment(isPresented: $isShowingBottomSheet)
+                                })
+                                
                                 Image(systemName: "arrowshape.turn.up.forward.fill")
                                     .font(.system(size: 24))
                                     .foregroundColor(.gray)
