@@ -160,8 +160,15 @@ struct HorizontalStory: View {
 
 
 struct VerticalFeed: View {
-    @State private var isShowingBottomSheet = false
+    @State private var isShowingBottomSheetComment = false
+    @State private var isShowingBottomSheetShare = false
+    
+    @State private var isShowingGallery = false
+    
     @StateObject private var viewModel = PostViewModel()
+    
+    let baseURL = "http://127.0.0.1:3000/"
+    
     
     var body: some View {
         VStack{
@@ -174,12 +181,12 @@ struct VerticalFeed: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 60, height: 60)
-
+                            
                             VStack(alignment: .leading){
                                 Text(post.peoplename)
                                     .font(.system(size: 18))
-
-                                Text("Added 3 photos")
+                                
+                                Text("Added \(post.postimage.count) photos")
                                     .font(.system(size: 14))
                                     .foregroundColor(.gray)
                             }
@@ -187,7 +194,7 @@ struct VerticalFeed: View {
                         .padding(.top, 12)
                         .padding(.leading, 12)
                         .padding(.trailing, 12)
-
+                        
                         HStack(alignment: .center){
                             Text(post.postcaption)
                                 .font(.system(size: 16))
@@ -196,10 +203,13 @@ struct VerticalFeed: View {
                         .padding(.leading, 12)
                         .padding(.trailing, 12)
                         
+                        Button("") {
+                            isShowingGallery = true
+                        }
                         Grid() {
                             GridRow {
                                 VStack{
-                                    if let imageUrl = post.postimageUrls[safe: 0] {
+                                    if let imageUrl = URL(string: baseURL + post.postimage[0]) {
                                         AsyncImage(url: imageUrl) { image in
                                             image
                                                 .resizable()
@@ -214,9 +224,9 @@ struct VerticalFeed: View {
                                 }.rotationEffect(Angle(degrees: -8))
                                     .padding(.leading, -12)
                                     .padding(.trailing, 12)
-
+                                
                                 VStack{
-                                    if let imageUrl = post.postimageUrls[safe: 1] {
+                                    if let imageUrl = URL(string: baseURL + post.postimage[1]) {
                                         AsyncImage(url: imageUrl) { image in
                                             image
                                                 .resizable()
@@ -233,9 +243,9 @@ struct VerticalFeed: View {
                                     .padding(.trailing, -12)
                                     .padding(.top, -24)
                             }
-
+                            
                             HStack(alignment: .center){
-                                if let imageUrl = post.postimageUrls[safe: 2] {
+                                if let imageUrl = URL(string: baseURL + post.postimage[2]) {
                                     AsyncImage(url: imageUrl) { image in
                                         image
                                             .resizable()
@@ -252,7 +262,7 @@ struct VerticalFeed: View {
                             .padding(.top, -74)
                             
                             HStack(alignment: .lastTextBaseline){
-                                Text("+12")
+                                Text("+ \(post.postimage.count - 3)")
                                     .padding(.top, 10)
                                     .padding(.bottom, 10)
                                     .padding(.leading, 16)
@@ -265,16 +275,20 @@ struct VerticalFeed: View {
                             .padding(.top, -52)
                             .padding(.trailing, -2)
                             .frame(maxWidth: .infinity, alignment: .trailing)
-
-
+                            
+                            
                         }
                         .padding(.leading, 32)
                         .padding(.trailing, 32)
                         .padding(.bottom, 24)
                         .padding(.top, 12)
-
+                        .buttonStyle(BorderlessButtonStyle())
+                        .sheet(isPresented: $isShowingGallery) {
+                            BottomSheetGallery(isPresented: $isShowingGallery, post: post)
+                        }
+                        
                         HStack{
-                            HStack(alignment: .top, spacing: 12){
+                            HStack(alignment: .top, spacing: 20){
                                 VStack{
                                     Image(systemName: "heart.fill")
                                         .font(.system(size: 26))
@@ -293,18 +307,19 @@ struct VerticalFeed: View {
                                     }
                                     .padding(.top, -52)
                                     .padding(.trailing, -34)
-//                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                    //                                        .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
                                 
                                 Button(action: {
-                                    isShowingBottomSheet = true
+                                    isShowingBottomSheetComment = true
+                                    isShowingBottomSheetShare = false
                                 }) {
-                                    VStack{
+                                    VStack {
                                         Image(systemName: "bubble.left.fill")
                                             .font(.system(size: 24))
                                             .foregroundColor(.gray)
                                         
-                                        HStack(alignment: .lastTextBaseline){
+                                        HStack(alignment: .lastTextBaseline) {
                                             Text("64")
                                                 .padding(.top, 4)
                                                 .padding(.bottom, 4)
@@ -317,18 +332,29 @@ struct VerticalFeed: View {
                                         }
                                         .padding(.top, -52)
                                         .padding(.trailing, -34)
-//                                        .frame(maxWidth: .infinity, alignment: .trailing)
                                     }
-                                }
-                                .sheet(isPresented: $isShowingBottomSheet, content: {
-                                    BottomSheetComment(isPresented: $isShowingBottomSheet)
-                                })
+                                }.buttonStyle(BorderlessButtonStyle())
+                                    .sheet(isPresented: $isShowingBottomSheetComment, content: {
+                                        BottomSheetComment(isPresented: $isShowingBottomSheetComment)
+                                    })
                                 
-                                Image(systemName: "arrowshape.turn.up.forward.fill")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.gray)
+                                Button(action: {
+                                    isShowingBottomSheetShare = true
+                                    isShowingBottomSheetComment = false
+                                }) {
+                                    VStack {
+                                        Image(systemName: "arrowshape.turn.up.forward.fill")
+                                            .font(.system(size: 24))
+                                            .foregroundColor(.gray)
+                                    }
+                                }.buttonStyle(BorderlessButtonStyle())
+                                    .sheet(isPresented: $isShowingBottomSheetShare, content: {
+                                        BottomSheetShare(isPresented: $isShowingBottomSheetShare)
+                                    })
+                                
+                                
                             }
-
+                            
                             Spacer()
                             HStack{
                                 HStack(spacing: -16){
@@ -338,14 +364,14 @@ struct VerticalFeed: View {
                                             .scaledToFit()
                                             .frame(width: 30, height: 30)
                                     }
-
+                                    
                                     if let secondAvatarLike = viewModel.posts.first?.avatarlikes[1] {
                                         Image("\(secondAvatarLike)")
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 30, height: 30)
                                     }
-
+                                    
                                     if let thirdAvatarLike = viewModel.posts.first?.avatarlikes[2] {
                                         Image("\(thirdAvatarLike)")
                                             .resizable()
@@ -375,9 +401,9 @@ struct VerticalFeed: View {
         }
         
         
-            
-        }
+        
     }
+}
 
 extension Array {
     subscript(safe index: Int) -> Element? {

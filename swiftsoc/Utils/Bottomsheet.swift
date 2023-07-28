@@ -92,30 +92,166 @@ struct BottomSheetComment: View {
                 .padding(.bottom, 16)
             }
             .padding()
-            
-//            HStack{
-//                Button(action: {
-//                    isPresented = false
-//                }) {
-//                    Text("Cancel")
-//                        .padding()
-//                        .background(Color.white)
-//                        .foregroundColor(.pink)
-//                        .cornerRadius(10)
-//                }
-//
-//                Button {
-//                } label: {
-//                    Text("Pair")
-//                        .frame(maxWidth: 46)
-//                        .font(.system(size: 16))
-//                        .padding(.bottom, 2)
-//                        .padding(.top, 2)
-//                        .bold()
-//                }
-//                .buttonStyle(.borderedProminent)
-//            }
             Spacer()
+        }
+        .background(Color.white)
+        .presentationDetents([.medium, .large])
+    }
+}
+
+
+
+struct BottomSheetShare: View {
+    @Binding var isPresented: Bool
+    
+    var body: some View {
+        VStack {
+            Text("Share")
+                .font(.system(size: 16))
+                .foregroundColor(Color.black)
+                .padding(.top, 32)
+                .padding(.bottom, 3)
+            
+            ScrollView(.vertical, showsIndicators: false){
+                HStack(alignment: .center){
+                    Image("whatsapp")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+
+                    Text("Whatsapp")
+                        .font(.system(size: 16))
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(alignment: .center){
+                    Image("telegram")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+
+                    Text("Telegram")
+                        .font(.system(size: 16))
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(alignment: .center){
+                    Image("twitter")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+
+                    Text("Twitter")
+                        .font(.system(size: 16))
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(alignment: .center){
+                    Image("signal")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+
+                    Text("Signal")
+                        .font(.system(size: 16))
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(alignment: .center){
+                    Image("medium")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+
+                    Text("Medium")
+                        .font(.system(size: 16))
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(alignment: .center){
+                    Image("twitch")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+
+                    Text("Twitch")
+                        .font(.system(size: 16))
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+            }
+            .padding()
+            Spacer()
+        }
+        .background(Color.white)
+        .presentationDetents([.medium, .large])
+    }
+}
+
+
+
+struct BottomSheetGallery: View {
+    @Binding var isPresented: Bool
+    let post: Post
+    
+    // Full image URLs based on the baseURL
+    var fullImageURLs: [URL] {
+        post.postimage.map { URL(string: baseURL + $0)! }
+    }
+    
+    let baseURL = "http://127.0.0.1:3000/"
+    
+    var body: some View {
+        VStack {
+            Text("Galleries")
+                .font(.system(size: 16))
+                .foregroundColor(Color.black)
+                .padding(.top, 32)
+            
+            Text(post.peoplename)
+                .font(.system(size: 14))
+                .foregroundColor(Color.black)
+                .padding(.top, 0)
+                .padding(.bottom, 24)
+            
+            ScrollView(.horizontal) {
+                HStack(spacing: 10) {
+                    ForEach(fullImageURLs, id: \.self) { imageUrl in
+                        AsyncImage(url: imageUrl) { phase in
+                            switch phase {
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .cornerRadius(12)
+                                
+                            case .failure(_):
+                                // Placeholder view in case of image loading failure
+                                Color.gray
+                            case .empty:
+                                // Placeholder view while the image is being loaded
+                                Color.gray
+                            @unknown default:
+                                // Placeholder view for unknown cases
+                                Color.gray
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 10)
+            }
         }
         .background(Color.white)
         .presentationDetents([.medium, .large])

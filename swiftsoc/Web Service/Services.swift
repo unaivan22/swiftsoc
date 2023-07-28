@@ -15,7 +15,7 @@ class PostViewModel: ObservableObject {
     }
 
     func fetchData() {
-        guard let url = URL(string: "https://raw.githubusercontent.com/unaivan22/openJson/main/swiftsoc.json") else {
+        guard let url = URL(string: "http://127.0.0.1:3000/json/swiftsoc.json") else {
             print("Invalid URL")
             return
         }
