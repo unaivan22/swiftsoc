@@ -18,7 +18,7 @@ struct ContentView: View {
                         Image(systemName: "rectangle.split.1x2.fill" )
                     }.tag(0)
                 
-                Home()
+                MapCurrent()
                     .tabItem {
                         Image(systemName: "map.fill")
                     }.tag(1)
