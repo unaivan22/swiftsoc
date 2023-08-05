@@ -49,7 +49,7 @@ struct HorizontalStory: View {
                 .cornerRadius(16)
                 
                 ZStack(alignment: .topLeading) {
-                    AsyncImage(url: URL(string: "https://images.unsplash.com/photo-1674574124349-0928f4b2bce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"))
+                    AsyncImage(url: URL(string: "http://127.0.0.1:3000/media/swiftsoc/stories/stories1.jpg"))
                     { image in
                         image
                             .resizable()
@@ -70,7 +70,7 @@ struct HorizontalStory: View {
                 }
                 
                 ZStack(alignment: .topLeading) {
-                    AsyncImage(url: URL(string: "https://images.unsplash.com/photo-1690151711465-2bfe4e69f241?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=711&q=80"))
+                    AsyncImage(url: URL(string: "http://127.0.0.1:3000/media/swiftsoc/stories/stories2.jpg"))
                     { image in
                         image
                             .resizable()
@@ -91,7 +91,7 @@ struct HorizontalStory: View {
                 }
                 
                 ZStack(alignment: .topLeading) {
-                    AsyncImage(url: URL(string: "https://images.unsplash.com/photo-1687360441387-0179af118555?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80"))
+                    AsyncImage(url: URL(string: "http://127.0.0.1:3000/media/swiftsoc/stories/stories3.jpg"))
                     { image in
                         image
                             .resizable()
@@ -112,7 +112,7 @@ struct HorizontalStory: View {
                 }
                 
                 ZStack(alignment: .topLeading) {
-                    AsyncImage(url: URL(string: "https://plus.unsplash.com/premium_photo-1664879730410-801591701960?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80"))
+                    AsyncImage(url: URL(string: "http://127.0.0.1:3000/media/swiftsoc/stories/stories4.jpg"))
                     { image in
                         image
                             .resizable()
@@ -133,7 +133,7 @@ struct HorizontalStory: View {
                 }
                 
                 ZStack(alignment: .topLeading) {
-                    AsyncImage(url: URL(string: "https://images.unsplash.com/photo-1688819092299-9a1c4f59279c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"))
+                    AsyncImage(url: URL(string: "http://127.0.0.1:3000/media/swiftsoc/stories/stories5.jpg"))
                     { image in
                         image
                             .resizable()
@@ -190,6 +190,11 @@ struct VerticalFeed: View {
                                     .font(.system(size: 14))
                                     .foregroundColor(.gray)
                             }
+                            Spacer()
+                            Text(post.posttime)
+                                .font(.system(size: 16))
+                                .foregroundColor(.gray)
+                                .padding(.trailing, 8)
                         }
                         .padding(.top, 12)
                         .padding(.leading, 12)

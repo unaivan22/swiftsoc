@@ -14,6 +14,8 @@ struct Post: Codable, Identifiable {
     let avatarlikes: [String]
     let otherlikes: Int
     let postcaption: String
+    let posttype: Int
+    let posttime: String
     let postimage: [String]
 
     var postimageUrls: [URL] {
