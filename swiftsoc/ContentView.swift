@@ -41,7 +41,7 @@ struct ContentView: View {
                             .clipShape(Circle())
                     }.tag(4)
             }
-            .accentColor(.black)
+            .accentColor(.blue)
             .background(Color.white)
         }.background(Color.white)
     }

@@ -114,6 +114,27 @@ struct BottomSheetShare: View {
             
             ScrollView(.vertical, showsIndicators: false){
                 HStack(alignment: .center){
+                    Image(systemName: "doc.on.doc.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .font(.system(size: 16))
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.white)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 12)
+                        .padding(.top, 12)
+                        .padding(.bottom, 12)
+                        .background(Color.blue)
+                        .cornerRadius(32)
+
+                    Text("Copy link")
+                        .font(.system(size: 16))
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 12)
+                
+                HStack(alignment: .center){
                     Image("whatsapp")
                         .resizable()
                         .scaledToFit()

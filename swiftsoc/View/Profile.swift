@@ -8,16 +8,27 @@
 import SwiftUI
 
 struct Profile: View {
+    @State private var isShowingBottomSheetShare = false
+    
     var body: some View {
         NavigationView{
             MainProfile()
                 .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    VStack{
+                        Text("Edit")
+                            .font(.system(size: 16))
+                            .foregroundColor(.blue)
+                    }
+                }
+                
                 ToolbarItem(placement: .principal) {
                     VStack{
                         Text("Unaivan")
                             .font(.system(size: 20))
                             .foregroundColor(.black)
+                            .fontWeight(.bold)
                         
 //                        Text("Sukolilo, Madiun, East Java")
 //                            .font(.system(size: 12))
@@ -26,9 +37,20 @@ struct Profile: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 2){
+                    HStack(spacing: 8){
+                        Button(action: {
+                            isShowingBottomSheetShare = true
+                        }) {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(.blue)
+                                .font(.system(size: 18))
+                        }.buttonStyle(BorderlessButtonStyle())
+                            .sheet(isPresented: $isShowingBottomSheetShare, content: {
+                                BottomSheetShare(isPresented: $isShowingBottomSheetShare)
+                            })
+                        
                         Image(systemName: "gear")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.blue)
                             .font(.system(size: 18))
                     }
                 }
@@ -39,6 +61,7 @@ struct Profile: View {
 }
 
 struct MainProfile : View {
+    @State private var showSheet = false
     
     var body : some View {
         VStack(spacing: 32){
@@ -47,7 +70,7 @@ struct MainProfile : View {
                     Text("367")
                         .font(.system(size: 24))
                         .foregroundColor(.black)
-                    Text("Folowing")
+                    Text("Following")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                 }
@@ -72,24 +95,25 @@ struct MainProfile : View {
                     Text("667")
                         .font(.system(size: 24))
                         .foregroundColor(.black)
-                    Text("Folower")
+                    Text("Follower")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                 }
             }
             
-            VStack(alignment: .center, spacing: 8){
-                Text("Hi, I'm Ivan, a prototyper")
+            VStack(alignment: .leading, spacing: 8){
+                Text("a prototyper")
                     .font(.system(size: 18))
                     .foregroundColor(.black)
                     .fontWeight(.medium)
                 
-                Text("Tech Stack: Javascript, SwiftUI, ReactJS. \nLooking fulltime remote job")
+                Text("🖥️ Tech Stack: Javascript, SwiftUI, ReactJS. \nLooking fulltime remote job \n. \n. \nlifetime loving halimah")
                     .font(.system(size: 14))
                     .foregroundColor(.gray)
                     .fontWeight(.regular)
-                    .frame(maxWidth: .infinity, alignment: .center)
+//                    .frame(maxWidth: .infinity, alignment: .center)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .frame(width: UIScreen.main.bounds.width - 40)
             
             Divider()
@@ -99,13 +123,13 @@ struct MainProfile : View {
                     Image(systemName: "photo.on.rectangle.angled")
                         .foregroundColor(.gray)
                         .font(.system(size: 78))
-                    
+
                     Group{
                         Text("No post yet")
                             .font(.system(size: 24))
                             .foregroundColor(.gray)
                             .fontWeight(.medium)
-                        
+
                         Text("Capture your moment with all friends")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
@@ -118,7 +142,7 @@ struct MainProfile : View {
                 }
             }
             .padding(.top, 18)
-            .padding(.bottom, 200)
+            .padding(.bottom, 128)
         }
     }
 }
