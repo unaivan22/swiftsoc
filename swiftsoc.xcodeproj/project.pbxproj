@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3660A6B2A840FBB005BA591 /* ExtentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3660A6A2A840FBB005BA591 /* ExtentionView.swift */; };
 		A392CBB62A73A6970052D768 /* Bottomsheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392CBB52A73A6970052D768 /* Bottomsheet.swift */; };
 		A3A5D17F2A72A84A00A8957A /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A5D17E2A72A84A00A8957A /* Image.swift */; };
 		A3E88EF22A71FE3A002FAAEB /* swiftsocApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E88EF12A71FE3A002FAAEB /* swiftsocApp.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A3660A6A2A840FBB005BA591 /* ExtentionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtentionView.swift; sourceTree = "<group>"; };
 		A392CBB52A73A6970052D768 /* Bottomsheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bottomsheet.swift; sourceTree = "<group>"; };
 		A3A5D17E2A72A84A00A8957A /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		A3E88EEE2A71FE3A002FAAEB /* swiftsoc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swiftsoc.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +57,7 @@
 			children = (
 				A3A5D17E2A72A84A00A8957A /* Image.swift */,
 				A392CBB52A73A6970052D768 /* Bottomsheet.swift */,
+				A3660A6A2A840FBB005BA591 /* ExtentionView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 				A3E88F032A71FFEC002FAAEB /* Map.swift in Sources */,
 				A3E88EF22A71FE3A002FAAEB /* swiftsocApp.swift in Sources */,
 				A3E88F052A71FFF7002FAAEB /* Create.swift in Sources */,
+				A3660A6B2A840FBB005BA591 /* ExtentionView.swift in Sources */,
 				A3E88F092A720013002FAAEB /* Likes.swift in Sources */,
 				A3E88F0F2A720E3F002FAAEB /* Services.swift in Sources */,
 				A3E88F0C2A720E1D002FAAEB /* Model.swift in Sources */,

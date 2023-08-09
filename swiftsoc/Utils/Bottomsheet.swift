@@ -225,12 +225,8 @@ struct BottomSheetShare: View {
 
 struct BottomSheetGallery: View {
     @Binding var isPresented: Bool
+    let selectedImageURL: URL
     let post: Post
-    
-    // Full image URLs based on the baseURL
-    var fullImageURLs: [URL] {
-        post.postimage.map { URL(string: baseURL + $0)! }
-    }
     
     let baseURL = "http://127.0.0.1:3000/"
     
@@ -257,7 +253,6 @@ struct BottomSheetGallery: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .cornerRadius(12)
-                                
                             case .failure(_):
                                 // Placeholder view in case of image loading failure
                                 Color.gray
@@ -277,4 +272,10 @@ struct BottomSheetGallery: View {
         .background(Color.white)
         .presentationDetents([.medium, .large])
     }
+    
+    // Full image URLs based on the baseURL
+    var fullImageURLs: [URL] {
+        post.postimage.map { URL(string: baseURL + $0)! }
+    }
 }
+

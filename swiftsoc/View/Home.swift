@@ -13,14 +13,23 @@ struct Home: View {
     
     @State private var selectedTab = 0
     var body: some View {
-        ScrollView{
-            LazyVStack{
-                ScrollView(.horizontal){
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack {
+                ScrollView(.horizontal, showsIndicators: false) {
                     HorizontalStory()
                 }
+//                .padding(.horizontal)
+                
+                // Vertical scrolling list (List B)
+                VStack(alignment: .leading, spacing: 5) {
+                    VerticalFeed()
+                    Divider()
+                }
+                .padding()
+                
+                
             }
-            
-            VerticalFeed()
+            .padding(.top, 10) // Add padding to separate content from the top edge
         }
     }
 }
@@ -173,6 +182,7 @@ struct HorizontalStory: View {
 struct VerticalFeed: View {
     @State private var isShowingBottomSheetComment = false
     @State private var isShowingBottomSheetShare = false
+    @State private var selectedImageURL: URL?
     
     @State private var isShowingGallery = false
     
@@ -184,8 +194,8 @@ struct VerticalFeed: View {
     var body: some View {
         VStack{
 //            HorizontalStory()
-            NavigationView {
-                List(viewModel.posts, id: \.id) { post in
+//            NavigationView {
+                ForEach(viewModel.posts, id: \.id) { post in
                     VStack(alignment: .leading){
                         HStack(alignment: .center){
                             Image(post.avatar)
@@ -215,67 +225,42 @@ struct VerticalFeed: View {
                             Text(post.postcaption)
                                 .font(.system(size: 16))
                         }
-                        .padding(.top, 12)
+                        .padding(.top, 2)
+                        .padding(.bottom, 12)
                         .padding(.leading, 12)
                         .padding(.trailing, 12)
                         
-                        Button("") {
-                            isShowingGallery = true
-                        }
-                        Grid() {
-                            GridRow {
-                                VStack{
-                                    if let imageUrl = URL(string: baseURL + post.postimage[0]) {
-                                        AsyncImage(url: imageUrl) { image in
-                                            image
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 300, height: 230)
-                                        } placeholder: {
-                                            Color.gray.opacity(0.1)
-                                        }
-                                        .frame(maxWidth: 150, maxHeight: 200)
-                                        .cornerRadius(16)
-                                    }
-                                }.rotationEffect(Angle(degrees: -8))
-                                    .padding(.leading, -12)
-                                    .padding(.trailing, 12)
-                                
-                                VStack{
-                                    if let imageUrl = URL(string: baseURL + post.postimage[1]) {
-                                        AsyncImage(url: imageUrl) { image in
-                                            image
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 200, height: 250)
-                                        } placeholder: {
-                                            Color.gray.opacity(0.1)
-                                        }
-                                        .frame(maxWidth: 130, maxHeight: 140)
-                                        .cornerRadius(16)
-                                    }
-                                }.rotationEffect(Angle(degrees: 10))
-                                    .padding(.leading, 24)
-                                    .padding(.trailing, -12)
-                                    .padding(.top, -24)
+                        
+                        VStack{
+                            Button("") {
+                                isShowingGallery = true
                             }
-                            
-                            HStack(alignment: .center){
-                                if let imageUrl = URL(string: baseURL + post.postimage[2]) {
-                                    AsyncImage(url: imageUrl) { image in
+                            .sheet(isPresented: $isShowingGallery) {
+                                BottomSheetGallery(isPresented: $isShowingGallery, post: post)
+                            }
+                            ForEach(post.postimage.prefix(3), id: \.self) { imageUrl in
+                                if let imageURL = URL(string: baseURL + imageUrl) {
+                                    AsyncImage(url: imageURL) { image in
                                         image
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 150, height: 200)
                                     } placeholder: {
                                         Color.gray.opacity(0.1)
                                     }
-                                    .frame(maxWidth: 100, maxHeight: 100)
+                                    .frame(maxWidth: 150, maxHeight: 200)
                                     .cornerRadius(16)
+                                    .rotationEffect(Angle(degrees: imageUrl == post.postimage[0] ? -8 : (imageUrl == post.postimage[1] ? 10 : 2)))
+                                    .padding(.leading, imageUrl == post.postimage[0] ? -160 : (imageUrl == post.postimage[1] ? 24 : 0))
+                                    .padding(.trailing, imageUrl == post.postimage[2] ? 0 : -120)
+                                    .padding(.top, imageUrl == post.postimage[1] ? -200 : (imageUrl == post.postimage[2] ? -100 : 0))
+                                    .onTapGesture {
+                                        // Show BottomSheetGallery for this image
+                                        isShowingGallery = true
+                                    }
                                 }
                             }
-                            .rotationEffect(Angle(degrees: 2))
-                            .padding(.top, -74)
+                            .buttonStyle(BorderlessButtonStyle())
+                            
                             
                             HStack(alignment: .lastTextBaseline){
                                 Text("+ \(post.postimage.count - 3)")
@@ -298,10 +283,7 @@ struct VerticalFeed: View {
                         .padding(.trailing, 32)
                         .padding(.bottom, 24)
                         .padding(.top, 12)
-                        .buttonStyle(BorderlessButtonStyle())
-                        .sheet(isPresented: $isShowingGallery) {
-                            BottomSheetGallery(isPresented: $isShowingGallery, post: post)
-                        }
+                        
                         
                         HStack{
                             HStack(alignment: .top, spacing: 20){
@@ -400,17 +382,19 @@ struct VerticalFeed: View {
                                     .foregroundColor(.gray)
                             }
                         }
+                        .padding(.top, 4)
                         .padding(.bottom, 12)
                         .padding(.leading, 12)
                         .padding(.trailing, 12)
                     }.listRowSeparator(.hidden)
                         .frame(maxWidth: .infinity)
                         .background(Color(.systemGray6))
-                        .cornerRadius(32)
+                        .cornerRadius(24)
                 }
-            }
+//            }
             .listStyle(.plain)
-            .frame(height: UIScreen.main.bounds.height)
+            .padding(.bottom, 24)
+//            .frame(height: UIScreen.main.bounds.height)
             .onAppear {
                 viewModel.fetchData()
             }
