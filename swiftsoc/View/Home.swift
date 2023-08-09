@@ -13,7 +13,13 @@ struct Home: View {
     
     @State private var selectedTab = 0
     var body: some View {
-        ScrollView(.vertical){
+        ScrollView{
+            LazyVStack{
+                ScrollView(.horizontal){
+                    HorizontalStory()
+                }
+            }
+            
             VerticalFeed()
         }
     }
@@ -55,6 +61,7 @@ struct HorizontalStory: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200, height: 200)
+                            .brightness(-0.5)
                     } placeholder: {
                         Color.gray.opacity(0.1)
                     }
@@ -76,6 +83,7 @@ struct HorizontalStory: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200, height: 200)
+                            .brightness(-0.5)
                     } placeholder: {
                         Color.gray.opacity(0.1)
                     }
@@ -97,6 +105,7 @@ struct HorizontalStory: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200, height: 200)
+                            .brightness(-0.5)
                     } placeholder: {
                         Color.gray.opacity(0.1)
                     }
@@ -118,6 +127,7 @@ struct HorizontalStory: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200, height: 200)
+                            .brightness(-0.5)
                     } placeholder: {
                         Color.gray.opacity(0.1)
                     }
@@ -139,6 +149,7 @@ struct HorizontalStory: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200, height: 200)
+                            .brightness(-0.5)
                     } placeholder: {
                         Color.gray.opacity(0.1)
                     }
@@ -172,7 +183,7 @@ struct VerticalFeed: View {
     
     var body: some View {
         VStack{
-            HorizontalStory()
+//            HorizontalStory()
             NavigationView {
                 List(viewModel.posts, id: \.id) { post in
                     VStack(alignment: .leading){
