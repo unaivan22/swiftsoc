@@ -17,6 +17,8 @@ struct Post: Codable, Identifiable {
     let posttype: Int
     let posttime: String
     let postimage: [String]
+    let latitude: Double
+    let longitude: Double
 
     var postimageUrls: [URL] {
         postimage.compactMap { URL(string: $0) }
